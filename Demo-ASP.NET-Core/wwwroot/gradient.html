@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>QR Code Generator - Gradient Frame</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="content">
+        <div class="pure-g">
+            <!-- Navigation -->
+            <div class="pure-u-1">
+                <nav class="nav-bar">
+                    <a href="index.html" class="nav-link">🏠 Trang chủ</a>
+                    <a href="basic.html" class="nav-link">📱 Cơ bản</a>
+                    <a href="custom.html" class="nav-link">🎨 Tùy chỉnh</a>
+                    <a href="gradient.html" class="nav-link active">✨ Gradient</a>
+                </nav>
+            </div>
+            
+            <div class="pure-u-1">
+                <h1>✨ QR Code với Khung Gradient</h1>
+                <p class="subtitle">Tạo QR code đẹp với khung gradient và text phía dưới</p>
+            </div>
+            
+            <!-- Two Column Layout -->
+            <div class="pure-u-1 pure-u-lg-1-2">
+                <!-- Left Column - Configuration -->
+                <div class="config-panel">
+                    <h2>1. Cấu hình QR Code</h2>
+                    <form class="pure-form" id="gradientForm" enctype="multipart/form-data">
+                        <fieldset>
+                            <!-- Basic Settings -->
+                            <div class="pure-u-1 more-space">
+                                <label for="gradientText">Nội dung QR code:</label>
+                                <input id="gradientText" name="Text" type="text" placeholder="Nhập text cần tạo QR code..." value="Hello world!" required />
+                            </div>
+                            
+                            <div class="pure-g">
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientEcc">Mức độ sửa lỗi:</label>
+                                    <select id="gradientEcc" name="Ecc">
+                                        <option value="0">Low (7%)</option>
+                                        <option value="1" selected>Medium (15%)</option>
+                                        <option value="2">Quartile (25%)</option>
+                                        <option value="3">High (30%)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientBorder">Độ rộng viền:</label>
+                                    <input type="number" id="gradientBorder" name="BorderWidth" value="3" min="0" max="99999" />
+                                </div>
+                            </div>
+                            
+                            <!-- Logo Settings -->
+                            <div class="pure-u-1 more-space">
+                                <label for="gradientLogoFile">Upload Logo:</label>
+                                <input type="file" id="gradientLogoFile" name="LogoFile" accept="image/*" />
+                                <small>Hỗ trợ: JPG, PNG, GIF (Tối đa 10MB)</small>
+                            </div>
+                            
+                            <div class="pure-g">
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientLogoSize">Kích thước logo (%):</label>
+                                    <input type="number" id="gradientLogoSize" name="LogoSize" value="15" min="10" max="30" />
+                                </div>
+                                
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientLogoBorderColor">Màu viền logo:</label>
+                                    <input type="color" id="gradientLogoBorderColor" name="LogoBorderColor" value="#1E3A8A" />
+                                </div>
+                            </div>
+                            
+                            <!-- QR Code Colors -->
+                            <div class="pure-g">
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientForegroundColor">Màu QR code:</label>
+                                    <input type="color" id="gradientForegroundColor" name="ForegroundColor" value="#1E3A8A" />
+                                </div>
+                                
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientBackgroundColor">Màu nền QR code:</label>
+                                    <input type="color" id="gradientBackgroundColor" name="BackgroundColor" value="#FFFFFF" />
+                                </div>
+                            </div>
+                            
+                            <div class="pure-u-1 more-space">
+                                <label for="gradientLogoBackgroundColor">Màu nền logo:</label>
+                                <input type="color" id="gradientLogoBackgroundColor" name="LogoBackgroundColor" value="#FFFFFF" />
+                            </div>
+                            
+                            <!-- Gradient Colors -->
+                            <div class="pure-g">
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientStartColor">Màu gradient bắt đầu:</label>
+                                    <input type="color" id="gradientStartColor" name="GradientStartColor" value="#1E3A8A" />
+                                </div>
+                                
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="gradientEndColor">Màu gradient kết thúc:</label>
+                                    <input type="color" id="gradientEndColor" name="GradientEndColor" value="#06B6D4" />
+                                </div>
+                            </div>
+                            
+                            <!-- Frame Settings -->
+                            <div class="pure-g">
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="frameWidth">Độ rộng khung (px):</label>
+                                    <input type="number" id="frameWidth" name="FrameWidth" value="40" min="10" max="200" />
+                                </div>
+                                
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="cornerRadius">Bo góc (px):</label>
+                                    <input type="number" id="cornerRadius" name="CornerRadius" value="20" min="0" max="100" />
+                                </div>
+                            </div>
+                            
+                            <!-- Bottom Text -->
+                            <div class="pure-g">
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="bottomText">Text phía dưới:</label>
+                                    <input type="text" id="bottomText" name="BottomText" placeholder="Ví dụ: Google Play Store, Apple App Store..." />
+                                </div>
+                                
+                                <div class="pure-u-1 pure-u-md-1-4 more-space">
+                                    <label for="bottomTextColor">Màu text:</label>
+                                    <input type="color" id="bottomTextColor" name="BottomTextColor" value="#1E3A8A" />
+                                </div>
+                                
+                                <div class="pure-u-1 pure-u-md-1-4 more-space">
+                                    <label for="bottomTextFontSize">Font size (px):</label>
+                                    <input type="number" id="bottomTextFontSize" name="BottomTextFontSize" value="32" min="12" max="72" />
+                                </div>
+                            </div>
+                            
+                            <div class="pure-u-1 more-space">
+                                <button type="submit" class="pure-button pure-button-primary">✨ Tạo QR Code với Khung Gradient</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pure-u-1 pure-u-lg-1-2">
+                <!-- Right Column - Preview & Templates -->
+                <div class="preview-panel">
+                    <h2>2. Xem trước & Mẫu có sẵn</h2>
+                    <div class="qr-preview">
+                        <img id="gradientQrcode" src="qrcode/png?text=Hello%20world!&ecc=1&border=3" alt="QR Code Preview" />
+                    </div>
+                    
+                    <div class="preset-section">
+                        <h3>🎨 Mẫu có sẵn</h3>
+                        <div class="preset-grid">
+                            <button class="preset-btn" onclick="applyPreset('google')">
+                                <div class="preset-preview google-preset"></div>
+                                <span>Google Play</span>
+                            </button>
+                            <button class="preset-btn" onclick="applyPreset('apple')">
+                                <div class="preset-preview apple-preset"></div>
+                                <span>Apple Store</span>
+                            </button>
+                            <button class="preset-btn" onclick="applyPreset('facebook')">
+                                <div class="preset-preview facebook-preset"></div>
+                                <span>Facebook</span>
+                            </button>
+                            <button class="preset-btn" onclick="applyPreset('instagram')">
+                                <div class="preset-preview instagram-preset"></div>
+                                <span>Instagram</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3>💡 Mẹo sử dụng</h3>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <h4>🎨 Gradient</h4>
+                                <p>Chọn màu gradient tương phản để khung nổi bật</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>📝 Text phía dưới</h4>
+                                <p>Text ngắn gọn, rõ ràng sẽ dễ đọc hơn</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🖼️ Logo</h4>
+                                <p>Logo nên có nền trắng và kích thước vừa phải</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🔒 Bảo mật</h4>
+                                <p>Tự động tăng ECC khi có logo để đảm bảo quét được</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="gradient.js"></script>
+</body>
+</html>

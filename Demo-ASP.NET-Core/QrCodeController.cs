@@ -130,6 +130,49 @@ namespace Net.Codecrete.QrCodeGenerator.Demo
             }
         }
 
+        /// <summary>
+        /// Generates QR code as PNG image with gradient frame and custom logo
+        /// </summary>
+        /// <param name="request">QR code generation request with gradient frame</param>
+        /// <returns>PNG image with gradient frame and custom logo</returns>
+        [HttpPost("qrcode/gradient-frame")]
+        public ActionResult<byte[]> GenerateGradientFrameQrCode([FromForm] QrCodeWithGradientFrameRequestDto request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                byte[] png = _qrCodeService.GenerateQrCodeWithGradientFrame(
+                    request.Text,
+                    errorCorrectionLevels[request.Ecc],
+                    20,
+                    request.BorderWidth,
+                    request.LogoSize,
+                    request.LogoFile,
+                    request.ForegroundColor,
+                    request.BackgroundColor,
+                    request.LogoBorderColor,
+                    request.LogoBackgroundColor,
+                    request.GradientStartColor,
+                    request.GradientEndColor,
+                    request.FrameWidth,
+                    request.CornerRadius,
+                    request.BottomText,
+                    request.BottomTextColor,
+                    request.BottomTextFontSize
+                );
+
+                return new FileContentResult(png, "image/png");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error generating QR code: {ex.Message}");
+            }
+        }
+
 
     }
 }

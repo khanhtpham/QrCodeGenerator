@@ -49,6 +49,31 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
         /// <returns>PNG image bytes</returns>
         byte[] GenerateQrCodeWithCustomLogo(string text, QrCode.Ecc ecc, int scale, int border, int logoSizePercent,
             IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor);
+
+        /// <summary>
+        /// Generates QR code as PNG with gradient frame and custom logo
+        /// </summary>
+        /// <param name="text">Text to encode</param>
+        /// <param name="ecc">Error correction level</param>
+        /// <param name="scale">Scale factor</param>
+        /// <param name="border">Border width</param>
+        /// <param name="logoSizePercent">Logo size as percentage</param>
+        /// <param name="logoFile">Uploaded logo file</param>
+        /// <param name="foregroundColor">QR code foreground color</param>
+        /// <param name="backgroundColor">QR code background color</param>
+        /// <param name="logoBorderColor">Logo border color</param>
+        /// <param name="logoBackgroundColor">Logo background color</param>
+        /// <param name="gradientStartColor">Gradient start color</param>
+        /// <param name="gradientEndColor">Gradient end color</param>
+        /// <param name="frameWidth">Frame width in pixels</param>
+        /// <param name="cornerRadius">Corner radius in pixels</param>
+        /// <param name="bottomText">Text to display below QR code</param>
+        /// <param name="bottomTextColor">Bottom text color</param>
+        /// <param name="bottomTextFontSize">Bottom text font size</param>
+        /// <returns>PNG image bytes</returns>
+        byte[] GenerateQrCodeWithGradientFrame(string text, QrCode.Ecc ecc, int scale, int border, int logoSizePercent,
+            IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor,
+            string gradientStartColor, string gradientEndColor, int frameWidth, int cornerRadius, string? bottomText, string bottomTextColor, int bottomTextFontSize);
     }
 
     /// <summary>
@@ -134,6 +159,84 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
             modules = Math.Max(1, modules);
             modules += 2; // padding around logo
             return modules;
+        }
+
+        /// <summary>
+        /// Creates a gradient frame around the QR code
+        /// </summary>
+        /// <param name="qrBitmap">QR code bitmap</param>
+        /// <param name="gradientStartColor">Start color of gradient</param>
+        /// <param name="gradientEndColor">End color of gradient</param>
+        /// <param name="frameWidth">Width of the frame</param>
+        /// <param name="cornerRadius">Corner radius</param>
+        /// <param name="bottomText">Text to display below QR code</param>
+        /// <param name="bottomTextColor">Bottom text color</param>
+        /// <param name="bottomTextFontSize">Bottom text font size</param>
+        /// <returns>Bitmap with gradient frame</returns>
+        private SKBitmap CreateGradientFrame(SKBitmap qrBitmap, SKColor gradientStartColor, SKColor gradientEndColor, 
+            int frameWidth, int cornerRadius, string? bottomText, SKColor bottomTextColor, int bottomTextFontSize)
+        {
+            // Calculate total dimensions
+            int totalWidth = qrBitmap.Width + (frameWidth * 2);
+            int totalHeight = qrBitmap.Height + (frameWidth * 2);
+            
+            // Add space for bottom text if provided
+            if (!string.IsNullOrEmpty(bottomText))
+            {
+                totalHeight += Math.Max(80, bottomTextFontSize + 40); // Space for text based on font size
+            }
+
+            SKBitmap frameBitmap = new SKBitmap(totalWidth, totalHeight, SKColorType.Rgba8888, SKAlphaType.Premul);
+            using SKCanvas canvas = new SKCanvas(frameBitmap);
+
+            // Create gradient paint for frame
+            using SKPaint gradientPaint = new SKPaint
+            {
+                Shader = SKShader.CreateLinearGradient(
+                    new SKPoint(0, 0),
+                    new SKPoint(totalWidth, totalHeight),
+                    new SKColor[] { gradientStartColor, gradientEndColor },
+                    null,
+                    SKShaderTileMode.Clamp
+                ),
+                IsAntialias = true
+            };
+
+            // Draw gradient background
+            using SKPath framePath = new SKPath();
+            framePath.AddRoundRect(new SKRect(0, 0, totalWidth, totalHeight), cornerRadius, cornerRadius);
+            canvas.DrawPath(framePath, gradientPaint);
+
+            // Draw white background for QR code area
+            using SKPaint whitePaint = new SKPaint
+            {
+                Color = SKColors.White,
+                IsAntialias = true
+            };
+            
+            SKRect qrArea = new SKRect(frameWidth, frameWidth, frameWidth + qrBitmap.Width, frameWidth + qrBitmap.Height);
+            canvas.DrawRect(qrArea, whitePaint);
+
+            // Draw QR code
+            canvas.DrawBitmap(qrBitmap, frameWidth, frameWidth);
+
+            // Draw bottom text if provided
+            if (!string.IsNullOrEmpty(bottomText))
+            {
+                using SKPaint textPaint = new SKPaint
+                {
+                    Color = bottomTextColor,
+                    TextSize = bottomTextFontSize,
+                    IsAntialias = true,
+                    TextAlign = SKTextAlign.Center,
+                    FakeBoldText = true
+                };
+
+                float textY = frameWidth + qrBitmap.Height + (bottomTextFontSize / 2) + 20;
+                canvas.DrawText(bottomText, totalWidth / 2, textY, textPaint);
+            }
+
+            return frameBitmap;
         }
 
         /// <summary>
@@ -333,6 +436,51 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
 
             // Encode to PNG
             using SKData data = finalBitmap.Encode(SKEncodedImageFormat.Png, 90);
+            return data.ToArray();
+        }
+
+        /// <summary>
+        /// Generates QR code with gradient frame and custom logo
+        /// </summary>
+        /// <param name="text">Text to encode in QR code</param>
+        /// <param name="ecc">Error correction level</param>
+        /// <param name="scale">Scale factor for QR code modules</param>
+        /// <param name="border">Border width</param>
+        /// <param name="logoSizePercent">Logo size as percentage of QR code</param>
+        /// <param name="logoFile">Uploaded logo file</param>
+        /// <param name="foregroundColor">QR code foreground color</param>
+        /// <param name="backgroundColor">QR code background color</param>
+        /// <param name="logoBorderColor">Logo border color</param>
+        /// <param name="logoBackgroundColor">Logo background color</param>
+        /// <param name="gradientStartColor">Gradient start color</param>
+        /// <param name="gradientEndColor">Gradient end color</param>
+        /// <param name="frameWidth">Frame width in pixels</param>
+        /// <param name="cornerRadius">Corner radius in pixels</param>
+        /// <param name="bottomText">Text to display below QR code</param>
+        /// <param name="bottomTextColor">Bottom text color</param>
+        /// <param name="bottomTextFontSize">Bottom text font size</param>
+        /// <returns>PNG image bytes</returns>
+        public byte[] GenerateQrCodeWithGradientFrame(string text, QrCode.Ecc ecc, int scale, int border, int logoSizePercent,
+            IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor,
+            string gradientStartColor, string gradientEndColor, int frameWidth, int cornerRadius, string? bottomText, string bottomTextColor, int bottomTextFontSize)
+        {
+            // First generate the QR code with logo
+            byte[] qrCodeBytes = GenerateQrCodeWithCustomLogo(text, ecc, scale, border, logoSizePercent,
+                logoFile, foregroundColor, backgroundColor, logoBorderColor, logoBackgroundColor);
+
+            // Decode the QR code bytes back to bitmap
+            using SKBitmap qrBitmap = SKBitmap.Decode(qrCodeBytes);
+            
+            // Convert gradient colors
+            var startColor = ColorUtils.HexToSkColor(gradientStartColor);
+            var endColor = ColorUtils.HexToSkColor(gradientEndColor);
+            var textColor = ColorUtils.HexToSkColor(bottomTextColor);
+
+            // Create gradient frame
+            using SKBitmap frameBitmap = CreateGradientFrame(qrBitmap, startColor, endColor, frameWidth, cornerRadius, bottomText, textColor, bottomTextFontSize);
+
+            // Encode to PNG
+            using SKData data = frameBitmap.Encode(SKEncodedImageFormat.Png, 90);
             return data.ToArray();
         }
     }

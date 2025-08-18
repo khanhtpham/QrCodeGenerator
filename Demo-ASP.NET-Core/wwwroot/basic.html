@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>QR Code Generator - Cơ bản</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="content">
+        <div class="pure-g">
+            <!-- Navigation -->
+            <div class="pure-u-1">
+                <nav class="nav-bar">
+                    <a href="index.html" class="nav-link">🏠 Trang chủ</a>
+                    <a href="basic.html" class="nav-link active">📱 Cơ bản</a>
+                    <a href="custom.html" class="nav-link">🎨 Tùy chỉnh</a>
+                    <a href="gradient.html" class="nav-link">✨ Gradient</a>
+                </nav>
+            </div>
+            
+            <div class="pure-u-1">
+                <h1>📱 QR Code Cơ bản</h1>
+                <p class="subtitle">Tạo QR code đơn giản với 3 định dạng: SVG, PNG, PNG với logo</p>
+            </div>
+            
+            <!-- Two Column Layout -->
+            <div class="pure-u-1 pure-u-lg-1-2">
+                <!-- Left Column - Configuration -->
+                <div class="config-panel">
+                    <h2>1. Cấu hình QR Code</h2>
+                    <form class="pure-form">
+                        <fieldset>
+                            <div class="pure-u-1 more-space">
+                                <label for="text">Nội dung QR code:</label>
+                                <input id="text" type="text" placeholder="Nhập text cần tạo QR code..." value="Hello world!" />
+                            </div>
+                            
+                            <div class="pure-u-1 more-space">
+                                <label for="qrType">Định dạng QR Code:</label>
+                                <select id="qrType">
+                                    <option value="svg">SVG (Vector, không logo)</option>
+                                    <option value="png">PNG (Bitmap, không logo)</option>
+                                    <option value="png-with-logo">PNG (Với logo mặc định)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="pure-u-1 more-space">
+                                <label for="ecc">Mức độ sửa lỗi:</label>
+                                <select id="ecc">
+                                    <option value="0">Low (7%)</option>
+                                    <option value="1" selected>Medium (15%)</option>
+                                    <option value="2">Quartile (25%)</option>
+                                    <option value="3">High (30%)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="pure-u-1 more-space">
+                                <label for="border">Độ rộng viền:</label>
+                                <input type="number" id="border" value="3" min="0" max="99999" />
+                            </div>
+                            
+                            <div class="pure-u-1 more-space" id="logoSizeContainer" style="display: none;">
+                                <label for="logoSize">Kích thước logo (%):</label>
+                                <input type="number" id="logoSize" value="15" min="10" max="30" />
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="pure-u-1 pure-u-lg-1-2">
+                <!-- Right Column - Preview & Download -->
+                <div class="preview-panel">
+                    <h2>2. Xem trước & Tải xuống</h2>
+                    <div class="qr-preview">
+                        <img id="qrcode" src="qrcode/svg?text=Hello%20world!&ecc=1&border=3" alt="QR Code Preview" />
+                    </div>
+                    
+                    <div class="download-section">
+                        <h3>📥 Tải xuống</h3>
+                        <p>Click chuột phải vào hình QR code và chọn "Lưu hình ảnh như..." để tải xuống</p>
+                        <div class="download-tips">
+                            <div class="tip">
+                                <strong>💡 Mẹo:</strong> SVG phù hợp cho in ấn, PNG phù hợp cho web
+                            </div>
+                            <div class="tip">
+                                <strong>🔒 Bảo mật:</strong> Chọn mức độ sửa lỗi cao hơn khi có logo
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tips-section">
+                        <h3>💡 Mẹo sử dụng</h3>
+                        <div class="tips-grid">
+                            <div class="tip-card">
+                                <h4>📱 Kích thước phù hợp</h4>
+                                <p>QR code nên có kích thước tối thiểu 2x2 cm để dễ quét</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🎯 Độ tương phản</h4>
+                                <p>Đảm bảo độ tương phản cao giữa màu nền và màu QR</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🔍 Chất lượng in</h4>
+                                <p>In với độ phân giải cao để QR code sắc nét</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>📏 Khoảng cách</h4>
+                                <p>Để khoảng trắng xung quanh QR code ít nhất 4 module</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>🔒 Mức độ sửa lỗi</h4>
+                                <p>Chọn ECC cao hơn khi có logo để đảm bảo quét được</p>
+                            </div>
+                            <div class="tip-card">
+                                <h4>📄 Định dạng</h4>
+                                <p>SVG cho in ấn, PNG cho web, PNG với logo cho thương hiệu</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="basic.js"></script>
+</body>
+</html>

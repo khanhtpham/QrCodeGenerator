@@ -20,6 +20,24 @@
     var logoBorderColorField;
     var logoBackgroundColorField;
 
+    // Gradient form elements
+    var gradientForm;
+    var gradientQrCodeImage;
+    var gradientTextField;
+    var gradientBorderField;
+    var gradientEccSelect;
+    var gradientLogoSizeField;
+    var gradientLogoFileField;
+    var gradientForegroundColorField;
+    var gradientBackgroundColorField;
+    var gradientLogoBorderColorField;
+    var gradientLogoBackgroundColorField;
+    var gradientStartColorField;
+    var gradientEndColorField;
+    var frameWidthField;
+    var cornerRadiusField;
+    var bottomTextField;
+
     function updateQrCode() {
         var qrType = qrTypeSelect.value;
         var url = new URL('qrcode/' + qrType, document.baseURI);
@@ -85,6 +103,48 @@
         });
     }
 
+    function handleGradientFormSubmit(event) {
+        event.preventDefault();
+        
+        var formData = new FormData(gradientForm);
+        
+        // Show loading state
+        var submitButton = gradientForm.querySelector('button[type="submit"]');
+        var originalText = submitButton.textContent;
+        submitButton.textContent = 'Đang tạo...';
+        submitButton.disabled = true;
+        
+        fetch('qrcode/gradient-frame', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            // Create object URL and update image
+            var imageUrl = URL.createObjectURL(blob);
+            gradientQrCodeImage.src = imageUrl;
+            
+            // Clean up object URL after image loads
+            gradientQrCodeImage.onload = function() {
+                URL.revokeObjectURL(imageUrl);
+            };
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Có lỗi xảy ra khi tạo QR code: ' + error.message);
+        })
+        .finally(() => {
+            // Restore button state
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        });
+    }
+
     function init() {
         // Basic form elements
         textField = document.getElementById('text');
@@ -108,6 +168,24 @@
         logoBorderColorField = document.getElementById('logoBorderColor');
         logoBackgroundColorField = document.getElementById('logoBackgroundColor');
 
+        // Gradient form elements
+        gradientForm = document.getElementById('gradientForm');
+        gradientQrCodeImage = document.getElementById('gradientQrcode');
+        gradientTextField = document.getElementById('gradientText');
+        gradientBorderField = document.getElementById('gradientBorder');
+        gradientEccSelect = document.getElementById('gradientEcc');
+        gradientLogoSizeField = document.getElementById('gradientLogoSize');
+        gradientLogoFileField = document.getElementById('gradientLogoFile');
+        gradientForegroundColorField = document.getElementById('gradientForegroundColor');
+        gradientBackgroundColorField = document.getElementById('gradientBackgroundColor');
+        gradientLogoBorderColorField = document.getElementById('gradientLogoBorderColor');
+        gradientLogoBackgroundColorField = document.getElementById('gradientLogoBackgroundColor');
+        gradientStartColorField = document.getElementById('gradientStartColor');
+        gradientEndColorField = document.getElementById('gradientEndColor');
+        frameWidthField = document.getElementById('frameWidth');
+        cornerRadiusField = document.getElementById('cornerRadius');
+        bottomTextField = document.getElementById('bottomText');
+
         // Add event listeners for basic form
         textField.onchange = function () { updateQrCode(); }
         textField.oninput = function () { updateQrCode(); }
@@ -121,8 +199,9 @@
         logoSizeField.onchange = function () { updateQrCode(); }
         logoSizeField.oninput = function () { updateQrCode(); }
 
-        // Add event listener for custom form
+        // Add event listeners for forms
         customForm.addEventListener('submit', handleCustomFormSubmit);
+        gradientForm.addEventListener('submit', handleGradientFormSubmit);
 
         // Initialize logo size visibility
         toggleLogoSizeVisibility();
