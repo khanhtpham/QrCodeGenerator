@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Http.Features;
+using Net.Codecrete.QrCodeGenerator.Demo.Services;
 
 namespace Net.Codecrete.QrCodeGenerator.Demo
 {
@@ -22,6 +24,15 @@ namespace Net.Codecrete.QrCodeGenerator.Demo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            // Configure file upload limits
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 10 * 1024 * 1024; // 10MB limit
+            });
+            
+            // Register QR Code service following DDD principles
+            services.AddScoped<IQrCodeService, QrCodeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

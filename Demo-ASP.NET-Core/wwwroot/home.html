@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>QR Code</title>
+    <title>QR Code Generator</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
     <link rel="stylesheet" href="styles.css">
@@ -11,30 +11,117 @@
 <body>
     <div class="content">
         <div class="pure-g">
-            <h1>QR Code</h1>
-            <form class="pure-form">
-                <fieldset>
-                    <div class="pure-u-1"><img id="qrcode" src="qrcode/svg?text=Hello%20world!&ecc=1&border=3" /></div>
-                    <div class="pure-u-1 more-space"><input id="text" type="text" placeholder="QR code text" value="Hello world!" /></div>
-                    <div class="pure-u-1 pure-u-lg-1-2 more-space">
-                        <label for="ecc">
-                            Error correction:
-                            <select id="ecc">
+            <h1>QR Code Generator</h1>
+            
+            <!-- Simple QR Code Section -->
+            <div class="pure-u-1">
+                <h2>QR Code Cơ bản</h2>
+                <form class="pure-form">
+                    <fieldset>
+                        <div class="pure-u-1"><img id="qrcode" src="qrcode/svg?text=Hello%20world!&ecc=1&border=3" /></div>
+                        <div class="pure-u-1 more-space"><input id="text" type="text" placeholder="QR code text" value="Hello world!" /></div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-3 more-space">
+                            <label for="qrType">
+                                QR Code Type:
+                                <select id="qrType">
+                                    <option value="svg">SVG (No Logo)</option>
+                                    <option value="png">PNG (No Logo)</option>
+                                    <option value="png-with-logo">PNG (With Logo)</option>
+                                </select>
+                            </label>
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-3 more-space">
+                            <label for="ecc">
+                                Error correction:
+                                <select id="ecc">
+                                    <option value="0">Low</option>
+                                    <option value="1" selected>Medium</option>
+                                    <option value="2">Quartile</option>
+                                    <option value="3">High</option>
+                                </select>
+                            </label>
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-3 more-space">
+                            <label for="border">
+                                Border width: <input type="number" id="border" value="3" min="0" max="99999" />
+                            </label>
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-3 more-space" id="logoSizeContainer" style="display: none;">
+                            <label for="logoSize">
+                                Logo size (%): <input type="number" id="logoSize" value="15" min="10" max="30" />
+                            </label>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+
+            <!-- Custom QR Code Section -->
+            <div class="pure-u-1">
+                <h2>QR Code Tùy chỉnh (Logo + Màu sắc)</h2>
+                <form class="pure-form" id="customForm" enctype="multipart/form-data">
+                    <fieldset>
+                        <div class="pure-u-1"><img id="customQrcode" src="qrcode/svg?text=Hello%20world!&ecc=1&border=3" /></div>
+                        
+                        <div class="pure-u-1 more-space">
+                            <label for="customText">Text:</label>
+                            <input id="customText" name="Text" type="text" placeholder="QR code text" value="Hello world!" required />
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="customEcc">Error correction:</label>
+                            <select id="customEcc" name="Ecc">
                                 <option value="0">Low</option>
                                 <option value="1" selected>Medium</option>
                                 <option value="2">Quartile</option>
                                 <option value="3">High</option>
                             </select>
-
-                        </label>
-                    </div>
-                    <div class="pure-u-1 pure-u-lg-1-2 more-space">
-                        <label for="border">
-                            Border width: <input type="number" id="border" value="3" min="0" max="99999" />
-                        </label>
-                    </div>
-                </fieldset>
-            </form>
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="customBorder">Border width:</label>
+                            <input type="number" id="customBorder" name="BorderWidth" value="3" min="0" max="99999" />
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="customLogoSize">Logo size (%):</label>
+                            <input type="number" id="customLogoSize" name="LogoSize" value="15" min="10" max="30" />
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="logoFile">Upload Logo:</label>
+                            <input type="file" id="logoFile" name="LogoFile" accept="image/*" />
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="foregroundColor">QR Foreground Color:</label>
+                            <input type="color" id="foregroundColor" name="ForegroundColor" value="#000000" />
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="backgroundColor">QR Background Color:</label>
+                            <input type="color" id="backgroundColor" name="BackgroundColor" value="#FFFFFF" />
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="logoBorderColor">Logo Border Color:</label>
+                            <input type="color" id="logoBorderColor" name="LogoBorderColor" value="#000000" />
+                        </div>
+                        
+                        <div class="pure-u-1 pure-u-lg-1-2 more-space">
+                            <label for="logoBackgroundColor">Logo Background Color:</label>
+                            <input type="color" id="logoBackgroundColor" name="LogoBackgroundColor" value="#FFFFFF" />
+                        </div>
+                        
+                        <div class="pure-u-1 more-space">
+                            <button type="submit" class="pure-button pure-button-primary">Tạo QR Code Tùy chỉnh</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
         </div>
     </div>
 
