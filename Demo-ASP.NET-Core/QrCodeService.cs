@@ -232,7 +232,9 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
                     FakeBoldText = true
                 };
 
-                float textY = frameWidth + qrBitmap.Height + (bottomTextFontSize / 2) + 20;
+                // Calculate text position to center it in the bottom area
+                float bottomAreaHeight = totalHeight - (frameWidth + qrBitmap.Height);
+                float textY = frameWidth + qrBitmap.Height + (bottomAreaHeight / 2) + (bottomTextFontSize / 3);
                 canvas.DrawText(bottomText, totalWidth / 2, textY, textPaint);
             }
 

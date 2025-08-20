@@ -143,6 +143,10 @@ namespace Net.Codecrete.QrCodeGenerator.Demo
                 return BadRequest(ModelState);
             }
 
+            // Debug: Log the request values
+            System.Diagnostics.Debug.WriteLine($"BottomTextFontSize: {request.BottomTextFontSize}");
+            System.Diagnostics.Debug.WriteLine($"BottomText: {request.BottomText}");
+
             try
             {
                 byte[] png = _qrCodeService.GenerateQrCodeWithGradientFrame(

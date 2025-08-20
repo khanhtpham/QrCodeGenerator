@@ -106,7 +106,7 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Dtos
         /// Bottom text color (hex format: #RRGGBB)
         /// </summary>
         [RegularExpression(@"^#[0-9A-Fa-f]{6}$", ErrorMessage = "Bottom text color must be in hex format (#RRGGBB)")]
-        public string BottomTextColor { get; set; } = "#1E3A8A";
+        public string BottomTextColor { get; set; } = "#FFFFFF";
 
         /// <summary>
         /// Bottom text font size in pixels

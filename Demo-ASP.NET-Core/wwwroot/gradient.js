@@ -8,6 +8,12 @@
         
         var formData = new FormData(gradientForm);
         
+        // Debug: Log form data
+        console.log('Form data contents:');
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+        
         // Show loading state
         var submitButton = gradientForm.querySelector('button[type="submit"]');
         var originalText = submitButton.textContent;
@@ -178,7 +184,7 @@
                 foregroundColor: '#4285f4',
                 logoBorderColor: '#4285f4',
                 bottomText: 'Google Play Store',
-                bottomTextColor: '#4285f4',
+                bottomTextColor: '#FFFFFF',
                 bottomTextFontSize: 36
             },
             'apple': {
@@ -187,7 +193,7 @@
                 foregroundColor: '#000000',
                 logoBorderColor: '#000000',
                 bottomText: 'Apple App Store',
-                bottomTextColor: '#000000',
+                bottomTextColor: '#FFFFFF',
                 bottomTextFontSize: 40
             },
             'facebook': {
@@ -196,7 +202,7 @@
                 foregroundColor: '#1877f2',
                 logoBorderColor: '#1877f2',
                 bottomText: 'Facebook',
-                bottomTextColor: '#1877f2',
+                bottomTextColor: '#FFFFFF',
                 bottomTextFontSize: 32
             },
             'instagram': {
@@ -205,7 +211,7 @@
                 foregroundColor: '#833ab4',
                 logoBorderColor: '#833ab4',
                 bottomText: 'Instagram',
-                bottomTextColor: '#833ab4',
+                bottomTextColor: '#FFFFFF',
                 bottomTextFontSize: 34
             }
         };
