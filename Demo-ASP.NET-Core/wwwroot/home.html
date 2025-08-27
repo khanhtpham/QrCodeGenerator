@@ -1,2 +1,82 @@
-﻿<!-- This file has been replaced by index.html, basic.html, custom.html, and gradient.html -->
-<!-- Please use the new separate pages for better organization -->
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>QR Code Generator - Trang chủ</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <div class="content">
+        <div class="pure-g">
+            <div class="pure-u-1">
+                <h1>🎯 QR Code Generator</h1>
+                <p class="subtitle">Tạo QR code chuyên nghiệp với nhiều tùy chọn</p>
+            </div>
+
+            <!-- Navigation Menu -->
+            <div class="pure-u-1">
+                <div class="menu-container">
+                    <div class="menu-item" onclick="window.location.href='basic.html'">
+                        <div class="menu-icon">📱</div>
+                        <h3>QR Code Cơ bản</h3>
+                        <p>Tạo QR code đơn giản với 3 định dạng: SVG, PNG, PNG với logo</p>
+                        <div class="menu-features">
+                            <span class="feature-tag">SVG</span>
+                            <span class="feature-tag">PNG</span>
+                            <span class="feature-tag">Logo mặc định</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item" onclick="window.location.href='custom.html'">
+                        <div class="menu-icon">🎨</div>
+                        <h3>QR Code Tùy chỉnh</h3>
+                        <p>Upload logo riêng và tùy chỉnh màu sắc QR code</p>
+                        <div class="menu-features">
+                            <span class="feature-tag">Upload logo</span>
+                            <span class="feature-tag">Tùy màu sắc</span>
+                            <span class="feature-tag">Logo tròn</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item" onclick="window.location.href='gradient.html'">
+                        <div class="menu-icon">✨</div>
+                        <h3>QR Code với Khung Gradient</h3>
+                        <p>Tạo QR code đẹp với khung gradient và text phía dưới</p>
+                        <div class="menu-features">
+                            <span class="feature-tag">Khung gradient</span>
+                            <span class="feature-tag">Text phía dưới</span>
+                            <span class="feature-tag">Góc bo tròn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="pure-u-1">
+                <h2>🌟 Tính năng nổi bật</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h4>🔒 Bảo mật cao</h4>
+                        <p>Hỗ trợ 4 mức độ sửa lỗi: Low, Medium, Quartile, High</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🎯 Logo tùy chỉnh</h4>
+                        <p>Upload logo riêng với kích thước từ 10% đến 30%</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>🌈 Màu sắc linh hoạt</h4>
+                        <p>Tùy chỉnh màu QR code, logo và khung gradient</p>
+                    </div>
+                    <div class="feature-card">
+                        <h4>📱 Đa định dạng</h4>
+                        <p>Xuất SVG vector và PNG chất lượng cao</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
