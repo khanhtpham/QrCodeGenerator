@@ -399,7 +399,7 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
             float logoBackgroundSize; // Size of the background shape
             
             // Offset to fix alignment (shift left and up)
-            const float offsetX = -15;
+            const float offsetX = -10;
             const float offsetY = -10;
             
             if (logoShape == "square")

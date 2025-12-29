@@ -44,7 +44,7 @@ namespace Net.Codecrete.QrCodeGenerator.Demo
             }
 
             var rewriter = new RewriteOptions();
-            rewriter.AddRewrite("^$", "home.html", skipRemainingRules: false);
+            rewriter.AddRewrite("^$", "vcard.html", skipRemainingRules: false);
             app.UseRewriter(rewriter);
 
             app.UseStaticFiles();

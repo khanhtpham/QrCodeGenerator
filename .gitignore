@@ -21,3 +21,10 @@
 
 # Rider
 .idea/
+Demo-ASP.NET-Core/k8s/deployment.yaml
+Demo-ASP.NET-Core/k8s/namespace.yaml
+Demo-ASP.NET-Core/k8s/README.md
+Demo-ASP.NET-Core/k8s/registry-secret.yaml
+Demo-ASP.NET-Core/k8s/secrect.yaml
+Demo-ASP.NET-Core/k8s/TROUBLESHOOTING.md
+Demo-ASP.NET-Core/SKIASHARP_FIX.md
