@@ -46,9 +46,10 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
         /// <param name="backgroundColor">QR code background color</param>
         /// <param name="logoBorderColor">Logo border color</param>
         /// <param name="logoBackgroundColor">Logo background color</param>
+        /// <param name="logoShape">Logo shape (circle or square)</param>
         /// <returns>PNG image bytes</returns>
         byte[] GenerateQrCodeWithCustomLogo(string text, QrCode.Ecc ecc, int scale, int border, int logoSizePercent,
-            IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor);
+            IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor, string logoShape = "circle");
 
         /// <summary>
         /// Generates QR code as PNG with gradient frame and custom logo
@@ -70,10 +71,11 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
         /// <param name="bottomText">Text to display below QR code</param>
         /// <param name="bottomTextColor">Bottom text color</param>
         /// <param name="bottomTextFontSize">Bottom text font size</param>
+        /// <param name="logoShape">Logo shape (circle or square)</param>
         /// <returns>PNG image bytes</returns>
         byte[] GenerateQrCodeWithGradientFrame(string text, QrCode.Ecc ecc, int scale, int border, int logoSizePercent,
             IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor,
-            string gradientStartColor, string gradientEndColor, int frameWidth, int cornerRadius, string? bottomText, string bottomTextColor, int bottomTextFontSize);
+            string gradientStartColor, string gradientEndColor, int frameWidth, int cornerRadius, string? bottomText, string bottomTextColor, int bottomTextFontSize, string logoShape = "circle");
     }
 
     /// <summary>
@@ -328,9 +330,10 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
         /// <param name="backgroundColor">QR code background color</param>
         /// <param name="logoBorderColor">Logo border color</param>
         /// <param name="logoBackgroundColor">Logo background color</param>
+        /// <param name="logoShape">Logo shape (circle or square)</param>
         /// <returns>PNG image bytes</returns>
         public byte[] GenerateQrCodeWithCustomLogo(string text, QrCode.Ecc ecc, int scale, int border, int logoSizePercent,
-            IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor)
+            IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor, string logoShape = "circle")
         {
             // Validate input parameters
             if (string.IsNullOrWhiteSpace(text))
@@ -392,9 +395,33 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
                 IsAntialias = true
             };
 
-            // Draw logo background circle
-            canvas.DrawCircle(centerX, centerY, radius, logoPaint);
-            canvas.DrawCircle(centerX, centerY, radius, borderPaint);
+            // Draw logo background based on shape
+            float logoBackgroundSize; // Size of the background shape
+            
+            // Offset to fix alignment (shift left and up)
+            const float offsetX = -15;
+            const float offsetY = -10;
+            
+            if (logoShape == "square")
+            {
+                // Square logo background - use same size as circle diameter for consistency
+                logoBackgroundSize = logoSize;
+                float squareX = centerX - logoBackgroundSize / 2 + offsetX;
+                float squareY = centerY - logoBackgroundSize / 2 + offsetY;
+                var squareRect = new SKRect(squareX, squareY, squareX + logoBackgroundSize, squareY + logoBackgroundSize);
+                
+                using var squarePath = new SKPath();
+                squarePath.AddRoundRect(squareRect, 8, 8); // Rounded corners
+                canvas.DrawPath(squarePath, logoPaint);
+                canvas.DrawPath(squarePath, borderPaint);
+            }
+            else
+            {
+                // Circle logo background (default)
+                logoBackgroundSize = logoSize;
+                canvas.DrawCircle(centerX + offsetX, centerY + offsetY, radius, logoPaint);
+                canvas.DrawCircle(centerX + offsetX, centerY + offsetY, radius, borderPaint);
+            }
 
             // Draw uploaded logo if provided
             if (logoFile != null && logoFile.Length > 0)
@@ -406,27 +433,59 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
                     
                     if (logoBitmap != null)
                     {
-                        // Calculate logo display size (slightly smaller than background)
-                        float logoDisplaySize = radius * 1.6f; // 80% of background circle
+                        // Logo should be slightly smaller than background to leave margin
+                        float logoDisplaySize = logoBackgroundSize * 0.85f;
                         
-                        // Create a rounded rectangle clip for the logo
-                        using var logoClip = new SKPath();
-                        logoClip.AddCircle(centerX, centerY, logoDisplaySize / 2);
-                        
-                        // Save canvas state
-                        canvas.Save();
-                        canvas.ClipPath(logoClip);
-                        
-                        // Calculate logo position to center it
-                        float logoX = centerX - logoDisplaySize / 2;
-                        float logoY = centerY - logoDisplaySize / 2;
-                        
-                        // Draw logo with scaling
-                        var logoRect = new SKRect(logoX, logoY, logoX + logoDisplaySize, logoY + logoDisplaySize);
-                        canvas.DrawBitmap(logoBitmap, logoRect);
-                        
-                        // Restore canvas state
-                        canvas.Restore();
+                        if (logoShape == "square")
+                        {
+                            // For square, create temp bitmap with alpha for proper transparency
+                            int tempSize = (int)Math.Ceiling(logoDisplaySize);
+                            using var tempBitmap = new SKBitmap(tempSize, tempSize, SKColorType.Rgba8888, SKAlphaType.Premul);
+                            using var tempCanvas = new SKCanvas(tempBitmap);
+                            
+                            // Clear with transparent background
+                            tempCanvas.Clear(SKColors.Transparent);
+                            
+                            // Create rounded rectangle clip path
+                            using var squareClip = new SKPath();
+                            squareClip.AddRoundRect(new SKRect(0, 0, tempSize, tempSize), 6, 6);
+                            
+                            // Clip and draw logo
+                            tempCanvas.Save();
+                            tempCanvas.ClipPath(squareClip);
+                            tempCanvas.DrawBitmap(logoBitmap, new SKRect(0, 0, tempSize, tempSize));
+                            tempCanvas.Restore();
+                            
+                            // Draw the temp bitmap onto main canvas using offset for alignment
+                            float logoX = centerX - logoDisplaySize / 2 + offsetX;
+                            float logoY = centerY - logoDisplaySize / 2 + offsetY;
+                            canvas.DrawBitmap(tempBitmap, new SKRect(logoX, logoY, logoX + logoDisplaySize, logoY + logoDisplaySize));
+                        }
+                        else
+                        {
+                            // For circle, create a temporary bitmap with alpha channel to ensure transparency
+                            int tempSize = (int)Math.Ceiling(logoDisplaySize);
+                            using var tempBitmap = new SKBitmap(tempSize, tempSize, SKColorType.Rgba8888, SKAlphaType.Premul);
+                            using var tempCanvas = new SKCanvas(tempBitmap);
+                            
+                            // Clear with transparent background
+                            tempCanvas.Clear(SKColors.Transparent);
+                            
+                            // Create circular clip path
+                            using var circleClip = new SKPath();
+                            circleClip.AddCircle(tempSize / 2f, tempSize / 2f, tempSize / 2f);
+                            
+                            // Clip and draw logo
+                            tempCanvas.Save();
+                            tempCanvas.ClipPath(circleClip);
+                            tempCanvas.DrawBitmap(logoBitmap, new SKRect(0, 0, tempSize, tempSize));
+                            tempCanvas.Restore();
+                            
+                            // Draw the temp bitmap onto main canvas using offset for alignment
+                            float logoX = centerX - logoDisplaySize / 2 + offsetX;
+                            float logoY = centerY - logoDisplaySize / 2 + offsetY;
+                            canvas.DrawBitmap(tempBitmap, new SKRect(logoX, logoY, logoX + logoDisplaySize, logoY + logoDisplaySize));
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -461,14 +520,15 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Services
         /// <param name="bottomText">Text to display below QR code</param>
         /// <param name="bottomTextColor">Bottom text color</param>
         /// <param name="bottomTextFontSize">Bottom text font size</param>
+        /// <param name="logoShape">Logo shape (circle or square)</param>
         /// <returns>PNG image bytes</returns>
         public byte[] GenerateQrCodeWithGradientFrame(string text, QrCode.Ecc ecc, int scale, int border, int logoSizePercent,
             IFormFile? logoFile, string foregroundColor, string backgroundColor, string logoBorderColor, string logoBackgroundColor,
-            string gradientStartColor, string gradientEndColor, int frameWidth, int cornerRadius, string? bottomText, string bottomTextColor, int bottomTextFontSize)
+            string gradientStartColor, string gradientEndColor, int frameWidth, int cornerRadius, string? bottomText, string bottomTextColor, int bottomTextFontSize, string logoShape = "circle")
         {
             // First generate the QR code with logo
             byte[] qrCodeBytes = GenerateQrCodeWithCustomLogo(text, ecc, scale, border, logoSizePercent,
-                logoFile, foregroundColor, backgroundColor, logoBorderColor, logoBackgroundColor);
+                logoFile, foregroundColor, backgroundColor, logoBorderColor, logoBackgroundColor, logoShape);
 
             // Decode the QR code bytes back to bitmap
             using SKBitmap qrBitmap = SKBitmap.Decode(qrCodeBytes);

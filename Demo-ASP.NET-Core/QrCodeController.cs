@@ -119,7 +119,8 @@ namespace Net.Codecrete.QrCodeGenerator.Demo
                     request.ForegroundColor,
                     request.BackgroundColor,
                     request.LogoBorderColor,
-                    request.LogoBackgroundColor
+                    request.LogoBackgroundColor,
+                    request.LogoShape
                 );
 
                 return new FileContentResult(png, "image/png");
@@ -166,7 +167,8 @@ namespace Net.Codecrete.QrCodeGenerator.Demo
                     request.CornerRadius,
                     request.BottomText,
                     request.BottomTextColor,
-                    request.BottomTextFontSize
+                    request.BottomTextFontSize,
+                    request.LogoShape
                 );
 
                 return new FileContentResult(png, "image/png");

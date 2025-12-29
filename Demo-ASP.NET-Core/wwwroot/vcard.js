@@ -38,6 +38,7 @@
         var logoFile = document.getElementById('logoFile').files[0];
         var logoBorderColor = document.getElementById('logoBorderColor').value;
         var logoBackgroundColor = document.getElementById('logoBackgroundColor').value;
+        var logoShape = document.getElementById('logoShape').value;
 
         var formData = new FormData();
         formData.append('Text', vcardText);
@@ -51,6 +52,7 @@
         }
         formData.append('LogoBorderColor', logoBorderColor);
         formData.append('LogoBackgroundColor', logoBackgroundColor);
+        formData.append('LogoShape', logoShape);
 
         // Show loading state
         var submitButton = vcardForm.querySelector('button[type="submit"]');

@@ -113,5 +113,11 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Dtos
         /// </summary>
         [Range(12, 72, ErrorMessage = "Font size must be between 12 and 72 pixels")]
         public int BottomTextFontSize { get; set; } = 32;
+
+        /// <summary>
+        /// Logo shape (circle or square)
+        /// </summary>
+        [RegularExpression(@"^(circle|square)$", ErrorMessage = "Logo shape must be 'circle' or 'square'")]
+        public string LogoShape { get; set; } = "circle";
     }
 }

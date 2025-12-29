@@ -71,5 +71,11 @@ namespace Net.Codecrete.QrCodeGenerator.Demo.Dtos
         /// </summary>
         [RegularExpression(@"^#[0-9A-Fa-f]{6}$", ErrorMessage = "Logo background color must be in hex format (#RRGGBB)")]
         public string LogoBackgroundColor { get; set; } = "#FFFFFF";
+
+        /// <summary>
+        /// Logo shape (circle or square)
+        /// </summary>
+        [RegularExpression(@"^(circle|square)$", ErrorMessage = "Logo shape must be 'circle' or 'square'")]
+        public string LogoShape { get; set; } = "circle";
     }
 }

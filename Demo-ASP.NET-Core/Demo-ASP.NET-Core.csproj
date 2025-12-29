@@ -3,9 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Net.Codecrete.QrCodeGenerator.Demo</RootNamespace>
+    <UserSecretsId>7488e6b6-96b6-43af-979d-991ff0192ba9</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
     <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.0.7" />
     <PackageReference Include="SkiaSharp" Version="2.88.6" />
   </ItemGroup>
