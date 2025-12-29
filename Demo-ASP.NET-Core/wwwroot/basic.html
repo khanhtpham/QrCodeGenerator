@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>QR Code Generator - Cơ bản</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+        integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
     <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body>
     <div class="content">
         <div class="pure-g">
@@ -18,14 +21,15 @@
                     <a href="basic.html" class="nav-link active">📱 Cơ bản</a>
                     <a href="custom.html" class="nav-link">🎨 Tùy chỉnh</a>
                     <a href="gradient.html" class="nav-link">✨ Gradient</a>
+                    <a href="vcard.html" class="nav-link">📇 vCard</a>
                 </nav>
             </div>
-            
+
             <div class="pure-u-1">
                 <h1>📱 QR Code Cơ bản</h1>
                 <p class="subtitle">Tạo QR code đơn giản với 3 định dạng: SVG, PNG, PNG với logo</p>
             </div>
-            
+
             <!-- Two Column Layout -->
             <div class="pure-u-1 pure-u-lg-1-2">
                 <!-- Left Column - Configuration -->
@@ -35,9 +39,9 @@
                         <fieldset>
                             <div class="pure-u-1 more-space">
                                 <label for="text">Nội dung QR code:</label>
-                                <input id="text" type="text" placeholder="Nhập text cần tạo QR code..." value="Hello world!" />
+                                <textarea id="text" placeholder="Nhập text cần tạo QR code...">Hello world!</textarea>
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="qrType">Định dạng QR Code:</label>
                                 <select id="qrType">
@@ -46,7 +50,7 @@
                                     <option value="png-with-logo">PNG (Với logo mặc định)</option>
                                 </select>
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="ecc">Mức độ sửa lỗi:</label>
                                 <select id="ecc">
@@ -56,12 +60,12 @@
                                     <option value="3">High (30%)</option>
                                 </select>
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="border">Độ rộng viền:</label>
                                 <input type="number" id="border" value="3" min="0" max="99999" />
                             </div>
-                            
+
                             <div class="pure-u-1 more-space" id="logoSizeContainer" style="display: none;">
                                 <label for="logoSize">Kích thước logo (%):</label>
                                 <input type="number" id="logoSize" value="15" min="10" max="30" />
@@ -70,7 +74,7 @@
                     </form>
                 </div>
             </div>
-            
+
             <div class="pure-u-1 pure-u-lg-1-2">
                 <!-- Right Column - Preview & Download -->
                 <div class="preview-panel">
@@ -78,7 +82,7 @@
                     <div class="qr-preview">
                         <img id="qrcode" src="qrcode/svg?text=Hello%20world!&ecc=1&border=3" alt="QR Code Preview" />
                     </div>
-                    
+
                     <div class="download-section">
                         <h3>📥 Tải xuống</h3>
                         <p>Click chuột phải vào hình QR code và chọn "Lưu hình ảnh như..." để tải xuống</p>
@@ -91,7 +95,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="tips-section">
                         <h3>💡 Mẹo sử dụng</h3>
                         <div class="tips-grid">
@@ -128,4 +132,5 @@
 
     <script src="basic.js"></script>
 </body>
+
 </html>

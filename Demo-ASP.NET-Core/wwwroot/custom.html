@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <title>QR Code Generator - Tùy chỉnh</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+        integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
     <link rel="stylesheet" href="styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
+
 <body>
     <div class="content">
         <div class="pure-g">
@@ -18,14 +21,15 @@
                     <a href="basic.html" class="nav-link">📱 Cơ bản</a>
                     <a href="custom.html" class="nav-link active">🎨 Tùy chỉnh</a>
                     <a href="gradient.html" class="nav-link">✨ Gradient</a>
+                    <a href="vcard.html" class="nav-link">📇 vCard</a>
                 </nav>
             </div>
-            
+
             <div class="pure-u-1">
                 <h1>🎨 QR Code Tùy chỉnh</h1>
                 <p class="subtitle">Upload logo riêng và tùy chỉnh màu sắc QR code</p>
             </div>
-            
+
             <!-- Two Column Layout -->
             <div class="pure-u-1 pure-u-lg-1-2">
                 <!-- Left Column - Configuration -->
@@ -35,9 +39,10 @@
                         <fieldset>
                             <div class="pure-u-1 more-space">
                                 <label for="customText">Nội dung QR code:</label>
-                                <input id="customText" name="Text" type="text" placeholder="Nhập text cần tạo QR code..." value="Hello world!" required />
+                                <textarea id="customText" name="Text" placeholder="Nhập text cần tạo QR code..."
+                                    required>Hello world!</textarea>
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="customEcc">Mức độ sửa lỗi:</label>
                                 <select id="customEcc" name="Ecc">
@@ -47,59 +52,63 @@
                                     <option value="3">High (30%)</option>
                                 </select>
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="customBorder">Độ rộng viền:</label>
-                                <input type="number" id="customBorder" name="BorderWidth" value="3" min="0" max="99999" />
+                                <input type="number" id="customBorder" name="BorderWidth" value="3" min="0"
+                                    max="99999" />
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="customLogoSize">Kích thước logo (%):</label>
                                 <input type="number" id="customLogoSize" name="LogoSize" value="15" min="10" max="30" />
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="logoFile">Upload Logo:</label>
                                 <input type="file" id="logoFile" name="LogoFile" accept="image/*" />
                                 <small>Hỗ trợ: JPG, PNG, GIF (Tối đa 10MB)</small>
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="foregroundColor">Màu QR code:</label>
                                 <input type="color" id="foregroundColor" name="ForegroundColor" value="#000000" />
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="backgroundColor">Màu nền QR code:</label>
                                 <input type="color" id="backgroundColor" name="BackgroundColor" value="#FFFFFF" />
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="logoBorderColor">Màu viền logo:</label>
                                 <input type="color" id="logoBorderColor" name="LogoBorderColor" value="#000000" />
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
                                 <label for="logoBackgroundColor">Màu nền logo:</label>
-                                <input type="color" id="logoBackgroundColor" name="LogoBackgroundColor" value="#FFFFFF" />
+                                <input type="color" id="logoBackgroundColor" name="LogoBackgroundColor"
+                                    value="#FFFFFF" />
                             </div>
-                            
+
                             <div class="pure-u-1 more-space">
-                                <button type="submit" class="pure-button pure-button-primary">🎨 Tạo QR Code Tùy chỉnh</button>
+                                <button type="submit" class="pure-button pure-button-primary">🎨 Tạo QR Code Tùy
+                                    chỉnh</button>
                             </div>
                         </fieldset>
                     </form>
                 </div>
             </div>
-            
+
             <div class="pure-u-1 pure-u-lg-1-2">
                 <!-- Right Column - Preview & Tips -->
                 <div class="preview-panel">
                     <h2>2. Xem trước & Mẹo sử dụng</h2>
                     <div class="qr-preview">
-                        <img id="customQrcode" src="qrcode/png?text=Hello%20world!&ecc=1&border=3" alt="QR Code Preview" />
+                        <img id="customQrcode" src="qrcode/png?text=Hello%20world!&ecc=1&border=3"
+                            alt="QR Code Preview" />
                     </div>
-                    
+
                     <div class="tips-section">
                         <h3>💡 Mẹo sử dụng</h3>
                         <div class="tips-grid">
@@ -136,4 +145,5 @@
 
     <script src="custom.js"></script>
 </body>
+
 </html>

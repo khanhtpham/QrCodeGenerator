@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>QR Code Generator - vCard</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css"
+        integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div class="content">
+        <div class="pure-g">
+            <!-- Navigation -->
+            <div class="pure-u-1">
+                <nav class="nav-bar">
+                    <a href="index.html" class="nav-link">🏠 Trang chủ</a>
+                    <a href="basic.html" class="nav-link">📱 Cơ bản</a>
+                    <a href="custom.html" class="nav-link">🎨 Tùy chỉnh</a>
+                    <a href="gradient.html" class="nav-link">✨ Gradient</a>
+                    <a href="vcard.html" class="nav-link active">📇 vCard</a>
+                </nav>
+            </div>
+
+            <div class="pure-u-1">
+                <h1>📇 Danh thiếp vCard</h1>
+                <p class="subtitle">Tạo QR code chứa thông tin liên hệ (Danh bạ)</p>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="pure-u-1 pure-u-lg-1-2">
+                <!-- Left Column - Configuration -->
+                <div class="config-panel">
+                    <h2>1. Thông tin liên hệ</h2>
+                    <form class="pure-form" id="vcardForm">
+                        <fieldset>
+                            <div class="pure-g">
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="firstName">Họ & Tên đệm:</label>
+                                    <input id="firstName" type="text" placeholder="Ví dụ: Phạm Tấn" value="Phạm Tấn"
+                                        required />
+                                </div>
+                                <div class="pure-u-1 pure-u-md-1-2 more-space">
+                                    <label for="lastName">Tên:</label>
+                                    <input id="lastName" type="text" placeholder="Ví dụ: Khánh" value="Khánh"
+                                        required />
+                                </div>
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="organization">Công ty (ORG):</label>
+                                <input id="organization" type="text" placeholder="Ví dụ: PECC2" value="PECC2" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="jobTitle">Chức danh (TITLE):</label>
+                                <input id="jobTitle" type="text" placeholder="Ví dụ: Phó Trưởng Phòng"
+                                    value="Phó Trưởng Phòng" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="phone">Số điện thoại (TEL):</label>
+                                <input id="phone" type="tel" placeholder="Ví dụ: +84901234567" value="+84901234567" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="email">Email:</label>
+                                <input id="email" type="email" placeholder="Ví dụ: khanh.pham@pecc2.vn"
+                                    value="khanh.pham@pecc2.vn" />
+                            </div>
+
+                            <hr />
+                            <h3>Tùy chỉnh QR Code</h3>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="customEcc">Mức độ sửa lỗi:</label>
+                                <select id="customEcc">
+                                    <option value="0">Low (7%)</option>
+                                    <option value="1">Medium (15%)</option>
+                                    <option value="2">Quartile (25%)</option>
+                                    <option value="3" selected>High (30%)</option>
+                                </select>
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="customBorder">Độ rộng viền:</label>
+                                <input type="number" id="customBorder" value="3" min="0" max="10" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="customLogoSize">Kích thước logo (%):</label>
+                                <input type="number" id="customLogoSize" value="15" min="10" max="30" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="logoFile">Upload Logo:</label>
+                                <input type="file" id="logoFile" accept="image/*" />
+                                <small>Hỗ trợ: JPG, PNG, GIF (Tối đa 10MB)</small>
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="foregroundColor">Màu QR code:</label>
+                                <input type="color" id="foregroundColor" value="#000000" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="backgroundColor">Màu nền QR code:</label>
+                                <input type="color" id="backgroundColor" value="#FFFFFF" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="logoBorderColor">Màu viền logo:</label>
+                                <input type="color" id="logoBorderColor" value="#000000" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <label for="logoBackgroundColor">Màu nền logo:</label>
+                                <input type="color" id="logoBackgroundColor" value="#FFFFFF" />
+                            </div>
+
+                            <div class="pure-u-1 more-space">
+                                <button type="submit" class="pure-button pure-button-primary">📇 Tạo QR Code
+                                    vCard</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <div class="pure-u-1 pure-u-lg-1-2">
+                <!-- Right Column - Preview -->
+                <div class="preview-panel">
+                    <h2>2. Xem trước</h2>
+                    <div class="qr-preview">
+                        <img id="vcardQrcode"
+                            src="qrcode/png?text=BEGIN%3AVCARD%0AVERSION%3A3.0%0AN%3AKhánh%3BPhạm%20Tấn%0AFN%3APhạm%20Tấn%20Khánh%0AORG%3APECC2%0ATITLE%3APhó%20Trưởng%20Phòng%0ATEL%3A%2B84901234567%0AEMAIL%3Akhanh.pham%40pecc2.vn%0AEND%3AVCARD&ecc=3&border=3"
+                            alt="QR Code Preview" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vcard.js"></script>
+</body>
+
+</html>
